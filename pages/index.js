@@ -9,8 +9,6 @@ import axios from "../src/utils/axios";
 export default function Home(latestSnippets) {
   let snippets = (latestSnippets.latestSnippets)
   console.log(snippets)
-
-
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setAlert] = useState(false);
   const [formData, setFormData] = useState({
@@ -311,18 +309,18 @@ export default function Home(latestSnippets) {
 
               <hr className="border-gray-200" />
               {snippets.map((snip) => (
-                      <Link href="/snippet/[...slug]" as={`/snippet/${snip.id}/${snip.url_slug}`}>
-                        <a>
-                          <div className="p-4 my-10 rounded-2xl bg-gray-100">
-                          <h3 class="font-black text-gray-800 md:text-3xl text-xl">{snip.title}</h3>
-                          <h4 className="text-xl">{snip.language}</h4>
-                          <SyntaxHighlighter language="python" style={dracula}>
-                            {snip.snippet}
-                          </SyntaxHighlighter>
-                                              </div>
-                        </a>
-                      </Link>
-                    ))} 
+                <Link href="/snippet/[...slug]" as={`/snippet/${snip.id}/${snip.url_slug}`}>
+                  <a>
+                    <div className="p-4 my-10 rounded-2xl bg-gray-100">
+                      <h3 class="font-black text-gray-800 md:text-3xl text-xl">{snip.title}</h3>
+                      <h4 className="text-xl">{snip.language}</h4>
+                      <SyntaxHighlighter language={snip.language} style={dracula}>
+                        {snip.snippet}
+                      </SyntaxHighlighter>
+                    </div>
+                  </a>
+                </Link>
+              ))}
               <div className="p-4 my-5">
                 <h3 class="font-black text-gray-800 md:text-3xl text-xl">Snippet to create a new function</h3>
 
@@ -360,12 +358,7 @@ export default function Home(latestSnippets) {
                   className="bg-gray-100 h-10 px-10 pr-5 w-full text-white text-sm focus:outline-none shadow rounded-xl border-0"
                 />
               </div>
-
-
-
-
             </div>
-
             <div />
           </div>
         </div>
@@ -377,13 +370,9 @@ export async function getServerSideProps() {
   const latestSnippets = axios.get('/all-snippets').then((response) => {
     return response.data.snippets;
   });
-
-
-
   return {
     props: {
       latestSnippets: await latestSnippets,
-
     },
   };
 }

@@ -15,9 +15,9 @@ function Signup() {
     setUserInfo,
   } = useContext(AuthContext);
   const [formData, setFormData] = useState({
-    "User.email_id": "",
-    "User.name": "",
-    "User.pwd": "",
+    "email": "",
+    "name": "",
+    "password": "",
   });
 
   useEffect(() => {
@@ -40,8 +40,8 @@ function Signup() {
     let user_signup = [formData];
     axios({
       method: "POST",
-      url: "/auth/signup",
-      data: user_signup,
+      url: "/signup",
+      data: formData,
     }).then((response) => {
       const data = response.data;
       if (data.message === "User Already exists") {
@@ -91,7 +91,7 @@ function Signup() {
                 <label className="block text-gray-700">Name</label>
                 <input
                   type="name"
-                  name="User.name"
+                  name="name"
                   id="NAME"
                   placeholder="Enter Name"
                   onChange={handleInputChange}
@@ -106,7 +106,7 @@ function Signup() {
                 <label className="block text-gray-700">Email Address</label>
                 <input
                   type="email"
-                  name="User.email_id"
+                  name="email"
                   id="EMAILID"
                   placeholder="Enter Email Address"
                   onChange={handleInputChange}
@@ -122,7 +122,7 @@ function Signup() {
                 <label className="block text-gray-700">Password</label>
                 <input
                   type="password"
-                  name="User.pwd"
+                  name="password"
                   id="PWD"
                   placeholder="Enter Password"
                   onChange={handleInputChange}
