@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "../../src/utils/axios";
 
 import { AuthContext } from "../../src/context/AuthContext";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { NavBar } from "../../src/components/NavBar";
@@ -10,11 +10,22 @@ import Link from "next/link";
 
 export default function PathDetail({ detail }) {
   console.log(detail);
+  const deletesnip = (e) => {
+	  axios.get(`/delete-snippet?snippet_id=${detail.id}`).then((response) => {
+	
+		router.push("/");
+	
+	});
+  }
 
   return (
     <div>
       <NavBar />
+	 
       <div className="p-24 my-10 rounded-2xl bg-gray-100">
+		  <button className="p-2 rounded-lg m-2 bg-red-400" onClick={deletesnip}>
+			  Delete
+		  </button>
         <h3 class="font-black text-gray-800 md:text-3xl text-xl">
           {detail.title}
         </h3>
@@ -34,7 +45,7 @@ export default function PathDetail({ detail }) {
         </h1>
         <div class="w-4/6 z-50 relative mx-auto mt-10">
           <div class="bg-white w-full rounded-xl shadow-xl overflow-hidden p-1">
-		  <Link href="/snippet/[...slug]" as={`/snippet/${Object.keys(detail.suggestions)[0]}`}>
+		  <Link href="/snippet/[...slug]" as={`/snippet/${Object.keys(detail.suggestions)[1]}`}>
 				<a >
 								<div class="w-full flex p-3 pl-4 items-center hover:bg-gray-300 rounded-lg cursor-pointer border-2">
 								  <div class="mr-4">
@@ -42,14 +53,14 @@ export default function PathDetail({ detail }) {
 								  </div>
 								  <div>
 									<h1 class="font-bold text-lg">
-									  {Object.values(detail.suggestions)[0]}
+									  {Object.values(detail.suggestions)[1]}
 									</h1>
 								  </div>
 								</div>
 							</a>
 			</Link>
 
-			<Link href="/snippet/[...slug]" as={`/snippet/${Object.keys(detail.suggestions)[1]}`}>
+			<Link href="/snippet/[...slug]" as={`/snippet/${Object.keys(detail.suggestions)[2]}`}>
 				<a>
 				  <div class="w-full flex p-3 pl-4 items-center hover:bg-gray-300 rounded-lg cursor-pointer border-2 mt-2">
 					<div class="mr-4">
@@ -58,7 +69,7 @@ export default function PathDetail({ detail }) {
 					<div>
 					  <h1 class="font-bold text-lg">
 						{" "}
-						{Object.values(detail.suggestions)[1]}
+						{Object.values(detail.suggestions)[2]}
 					  </h1>
 					</div>
 				  </div>
